@@ -1,0 +1,6 @@
+local({
+  win <- ifelse(grepl("64", Sys.getenv("R_ARCH")), "64", "32")
+  gcc <- normalizePath(paste0("C:/Rtools/mingw", win, "/bin"), mustWork = FALSE)
+  utils <- normalizePath("C:/Rtools/bin", mustWork = FALSE)
+  Sys.setenv(PATH = paste(gcc, utils, Sys.getenv("PATH"), sep = ";"))
+})
