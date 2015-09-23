@@ -34,31 +34,18 @@ sed -e "s|@win@|%WIN%|" -e "s|@home@|%R_HOME%|" -e "s|@home32@|%HOME32%|" -e "s|
 cp -R Tcl%WIN% %R_HOME%/Tcl
 cp -R extsoft %R_HOME%/extsoft
 cp curl-ca-bundle.crt %R_HOME%/etc/curl-ca-bundle.crt
-cp gcc.iss %R_HOME%/src/gnuwin32/installer/gcc.iss
 
 :: Temporary patch for mingw-w64 bugs
 :: sed -i "s/__GNUC__ <= 4/__GNUC__ <= 5/g" %R_HOME%/src/main/eval.c
 :: sed -i "s/ISNAN(x) ? x : sqrt(x)/__isnan(x) ? x : sqrt(x)/g" %R_HOME%/src/main/eval.c
-IF "%WIN%"=="64" (
-sed -i "s/pow(x, y)/powl(x, y)/g" %R_HOME%/src/main/arithmetic.c
-)
 
-:: sed -i "s/CXXFLAGS = -O2 -Wall/CXXFLAGS = -O2 -Wall -fno-asynchronous-unwind-tables/g" %R_HOME%/src/gnuwin32/fixed/etc/Makeconf
-:: sed -i "s/CXX1XFLAGS = -O2 -Wall/CXX1XFLAGS = -O2 -Wall -fno-asynchronous-unwind-tables/g" %R_HOME%/src/gnuwin32/fixed/etc/Makeconf
-sed -i "s/CXX1XSTD = -std=c++0x/CXX1XSTD = -std=c++11/g" %R_HOME%/src/gnuwin32/fixed/etc/Makeconf
-
-:: For e.g. 'vegan' package
-sed -i "s/FLIBS = -lgfortran/FLIBS = -lgfortran -lm -lquadmath/g" %R_HOME%/src/gnuwin32/fixed/etc/Makeconf
+:: Enable C++11
+:: sed -i "s/CXX1XSTD = -std=c++0x/CXX1XSTD = -std=c++11/g" %R_HOME%/src/gnuwin32/fixed/etc/Makeconf
 
 :: Mark output as experimental
 sed -i "s/Under development (unstable)/EXPERIMENTAL/" %R_HOME%/VERSION
 echo built with gcc 4.9.3 > %R_HOME%/VERSION-NICK
 echo cat('R-experimental') > %R_HOME%/src/gnuwin32/fixed/rwver.R
-
-:: Include GCC with the installer
-:: sed -i "/$(HelpStyle) $(Producer) \"$(ISDIR)\"/a \\\\t  cat gcc.iss >> R.iss" %R_HOME%/src/gnuwin32/installer/Makefile
-:: echo Name: "gcc"; Description: "GCC 4.9.3 multilib compiler"; Types: user user64 custom >> %R_HOME%/src/gnuwin32/installer/types3264.iss
-:: echo Name: "utils"; Description: "Shell utilities"; Types: user user64 custom >> %R_HOME%/src/gnuwin32/installer/types3264.iss
 
 :: Switch dir
 cd %R_HOME%/src/gnuwin32

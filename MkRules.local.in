@@ -7,8 +7,8 @@
 
 ### For non-multilib compilers ###
 WIN = @win@
-BINPREF = C:/Rtools/mingw32/bin/
-BINPREF64 = C:/Rtools/mingw64/bin/
+BINPREF = C:/Rtools/mingw_32/bin/
+BINPREF64 = C:/Rtools/mingw_64/bin/
 ###
 
 USE_LIBCURL = YES
