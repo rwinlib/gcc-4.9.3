@@ -6,15 +6,15 @@ Last updated by Jeroen on September 24 2015.
 
 The new Rtools compiler for windows is based on GCC 4.9.3 and Mingw-W64 V3. 
 It does not support multilib: instead we ship separate compilers targeting
-win32 and win64. R already supports this by setting `BINPREF` insead of 
-`MULTI` in `MkRules`. The main challenge is that the new compilers use a 
-new C++ exception model (dwarf/seh instead of sjlj). Therefore static C++ 
-libraries (libfoo.a files) which have been deployed on CRAN (icu, gdal, 
-quantlib, protobuf, etc) will need a rebuild. Shared libraries (DLL files) 
-and plain C libraries should be unaffected. The good news is that the new 
-tool chain is more standard, reliable and performant. This makes porting 
-packages to Windows easier than before. Moreover, upgrading the tool chain
-in the future should be much less painful than this time.
+win32 and win64. R already supports this by setting `BINPREF` in `MkRules`.
+The main challenge in this update is that the new compilers use another C++
+exception model (dwarf/seh instead of sjlj). Therefore static C++ libraries
+(`libfoo.a` files) which have been deployed on CRAN (icu, gdal, quantlib, 
+etc) will need a rebuild. Shared libraries (DLL files) and plain C libraries
+should be unaffected. The good news is that the new tool chain is more 
+standard, reliable and performant. This makes porting packages to Windows 
+easier than before. Moreover, upgrading the tool chain in the future should 
+be much less painful than this time.
 
 ### Introduction
 
