@@ -68,8 +68,8 @@ The full conventional names of these toolchains are:
  - [`i686-493-posix-dwarf-rt_v3-s`](http://www.stat.ucla.edu/~jeroen/mingw-w64/archive/gcc-4.9.3/i686-493-posix-dwarf-rt_v3-s.zip) for win32
  - [`x86_64-493-posix-seh-rt_v3-s`](http://www.stat.ucla.edu/~jeroen/mingw-w64/archive/gcc-4.9.3/x86_64-493-posix-seh-rt_v3-s.zip) for win64
 
-A full copy of these tool chains can be downloaded from [4]. A breakdown of 
-these names:
+A full copy of these tool chains is also included with RTools 3.3.
+A breakdown of this naming convention:
 
  - Target: `i686` or `x86_64`
  - GCC version: `4.9.3`
