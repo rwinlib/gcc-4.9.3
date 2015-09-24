@@ -37,11 +37,14 @@ proven to be challenging. Two major problems:
  - __math__: the mingw-w64 math implementations have a some peculiarities 
    for e.g. numeric precision or NaN handling. Currently the `V3` runtime 
    gives more consistent results than the `V4` runtime (the latter is only
-   needed for gcc 5). The only remaining problem is `pow()` on win64. 
+   needed for gcc 5).
 
-Over the past year, several people have been building, testing and debugging
-many different variations of the tool chain. As of August 2015 there is a 
-special `r-sig-windows` mailing list for dicusssing these things.
+Over the past year, several people have been testing and debugging many 
+different variations of the tool chain. As of August 2015 there is a 
+special [r-sig-windows][9] mailing list for dicusssing building R and R packages
+on Windows.
+
+[9]: https://stat.ethz.ch/pipermail/r-sig-windows/
 
 Some people that have been contributing to the process include:
 
