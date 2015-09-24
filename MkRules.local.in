@@ -3,12 +3,14 @@
 ### For multilib compiler ###
 # TOOL_PATH = C:/Rtools/gcc-4.6.3/bin/
 # MULTI = @win@
+# ICU_PATH = @build@/ICU
 ###
 
 ### For non-multilib compilers ###
 WIN = @win@
 BINPREF = C:/Rtools/mingw_32/bin/
 BINPREF64 = C:/Rtools/mingw_64/bin/
+ICU_PATH = @build@/libicu55
 ###
 
 USE_LIBCURL = YES
@@ -21,7 +23,6 @@ BUILD_HTML = YES
 CAIRO_HOME = @build@/cairo
 OPENMP = -fopenmp
 EXT_LIBS = @home@/extsoft
-ICU_PATH = @build@/libicu55
 
 ## Fix for precision bug?
 ## EOPTS = -mtune=core2 -fno-asynchronous-unwind-tables
