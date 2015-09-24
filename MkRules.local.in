@@ -10,7 +10,7 @@
 WIN = @win@
 BINPREF = C:/Rtools/mingw_32/bin/
 BINPREF64 = C:/Rtools/mingw_64/bin/
-ICU_PATH = @build@/libicu55
+ICU_PATH = C:/Rtools/mingw_libs
 ###
 
 USE_LIBCURL = YES

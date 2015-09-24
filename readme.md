@@ -1,6 +1,20 @@
 ## Rtools 3.3
 
-Last updated by Jeroen on September 17 2015.
+Last updated by Jeroen on September 24 2015.
+
+### Summary
+
+The new Rtools compiler for windows is based on GCC 4.9.3 and Mingw-W64 V3. 
+It does not support multilib: instead we ship separate compilers targeting
+win32 and win64. R already supports this by setting `BINPREF` insead of 
+`MULTI` in `MkRules`. The main challenge is that the new compilers use a 
+new C++ exception model (dwarf/seh instead of sjlj). Therefore static C++ 
+libraries (libfoo.a files) which have been deployed on CRAN (icu, gdal, 
+quantlib, protobuf, etc) will need a rebuild. Shared libraries (DLL files) 
+and plain C libraries should be unaffected. The good news is that the new 
+tool chain is more standard, reliable and performant. This makes porting 
+packages to Windows easier than before. Moreover, upgrading the tool chain
+in the future should be much less painful than this time.
 
 ### Introduction
 
@@ -48,15 +62,15 @@ chain, the new tool chain does not support multilib. Therefore we actually
 have two toolchains: one for compiling win32 and one for compiling win64. 
 The full conventional names of these toolchains are:
 
- - `i686-493-posix-dwarf-rt_v3-s` for win32
- - `x86_64-493-posix-seh-rt_v3-s` for win64
+ - [`i686-493-posix-dwarf-rt_v3-s`](http://www.stat.ucla.edu/~jeroen/mingw-w64/archive/gcc-4.9.3/i686-493-posix-dwarf-rt_v3-s.zip) for win32
+ - [`x86_64-493-posix-seh-rt_v3-s`](http://www.stat.ucla.edu/~jeroen/mingw-w64/archive/gcc-4.9.3/x86_64-493-posix-seh-rt_v3-s.zip) for win64
 
 A full copy of these tool chains can be downloaded from [4]. A breakdown of 
 these names:
 
  - Target: `i686` or `x86_64`
- - GCC version: 4.9.3
- - Threading implementation: posix
+ - GCC version: `4.9.3`
+ - Threading interface: `posix`
  - Exception model: `dwarf` on win32 and `seh` on win64
  - Mingw-w64 runtime version: `rt_v3`
  - The `-s` postfix means `--static-gcc`: software compiled with the tool 
@@ -68,13 +82,12 @@ To reproduce the tool chain, download the [mingw-builds scripts][1]
 inside msys2:
 
 ```sh
+# Build i686-493-posix-dwarf-rt_v3-s
 ./build --mode=gcc-4.9.3 --rt-version=v3 --arch=i686 --exceptions=dwarf --static-gcc --threads=posix --enable-languages=c,c++,fortran 
 
+# Build x86_64-493-posix-seh-rt_v3-s
 ./build --mode=gcc-4.9.3 --rt-version=v3 --arch=x86_64 --exceptions=seh --static-gcc --threads=posix --enable-languages=c,c++,fortran
-```   
-
-Because the new tool chain is more standard, updating it should be less 
-painful in the future.
+```
 
 The new chain is larger in size than the old one. This is mostly because
 we are shipping two seperate tool chains instead of one multilib. But
@@ -137,61 +150,48 @@ chain.
 
 [6]: http://www.stat.ucla.edu/~jeroen/mingw-w64/
 
-### Migration steps
+### Migration steps for CRAN
 
-First we need to update the official Rtools installer. The new tool chain can 
-co-exist with the old one, so that we can support R 3.2 and R 3.3 on one 
-machine. The mingw-w64 convention is to name the directory with the compiler
-`mingw32` and `mingw64` respectively. So the new tool chain would contain:
-
-```sh
-./bin
-./gcc-4.9.3
-./mingw32
-./mingw64
-./texinfo5
-```
-
-Note that the `./bin` directory contains binary utilities required for building
-packages such as `sh` and `make`. These are just win32 executables that can be
-used with any tool chain on both architectures.
+Update: RTools 3.3. now contains a copy of the new tool chain. We have not 
+updated the `./bin` utilities yet (`sh`, `make`, `sed`, etc). These are just
+win32 executables that can be used with any tool chain on both architectures.
 
 Then to build R on CRAN the `MkRules.local` file needs to be modified to use
-the non-multilib compiler: 
+the non-multilib compiler. We also need to use the new build of libicu, because
+this is a C++ library. All other libraries are plain C and we use the existing
+builds from CRAN for now.
+
 
 ```make
 ### For multilib compiler ###
 # TOOL_PATH = C:/Rtools/gcc-4.6.3/bin/
 # MULTI = @win@
+# ICU_PATH = @build@/ICU
 ###
 
 ### For non-multilib compilers ###
 WIN = @win@
 BINPREF = C:/Rtools/mingw32/bin/
 BINPREF64 = C:/Rtools/mingw64/bin/
+ICU_PATH = C:/Rtools/mingw_libs
 ###
 ```
 
-In addition the new tool chain requires a the following changes in
-`src/gnuwin32/fixed/etc/Makeconf`:
-
-```make
-CXX1XSTD = -std=c++11
-FLIBS = -lgfortran -lm -lquadmath
-```
-
-Then we need a separate directory with static libraries to make sure we do not
-mix up the `sjlj` builds for the old tool chain with the new `drarf`/`seh` 
-builds for the new one. I think we need:
+Build servers should maintain a separate directory with static libraries for the
+new tool chain, because new C++ builds will be incompatible with the old one
+and vice versa. Maybe something like:
 
 ```
-d:/RCompile/r-compiling/local/local330/include
-d:/RCompile/r-compiling/local/local330/lib/x64
-d:/RCompile/r-compiling/local/local330/lib/i386
+D:/RCompile/r-compiling/local/local330/include
+D:/RCompile/r-compiling/local/local330/lib/x64
+D:/RCompile/r-compiling/local/local330/lib/i386
+D:/RCompile/CRANpkg/extralibs330
 ```
 
 We can copy over the C libraries from `3.2` but the C++ libraries need a 
-rebuild. Here is a copy of [`libicu-55`][6] needed to build R itself.
+rebuild. Fresh builds of C++ libraries which I am aware of are available on
+[my homepage](http://www.stat.ucla.edu/~jeroen/mingw-w64/libraries/). Please
+let me know which other ones we need.
 
 ### Future work
 
