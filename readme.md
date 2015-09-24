@@ -13,8 +13,8 @@ exception model (dwarf/seh instead of sjlj). Therefore static C++ libraries
 etc) will need a rebuild. Shared libraries (DLL files) and plain C libraries
 should be unaffected. The good news is that the new tool chain is more 
 standard, reliable and performant. This makes porting packages to Windows 
-easier than before. Moreover, upgrading the tool chain in the future should 
-be much less painful than this time.
+easier than before. Moreover, future upgrades of the tool chain should be 
+much less painful than this time.
 
 ### Introduction
 
