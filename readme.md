@@ -4,7 +4,7 @@ Last updated by Jeroen on September 24 2015.
 
 ### Summary
 
-* The new Rtools compiler for windows is based on GCC 4.9.3 and Mingw-W64 V3. 
+_The new Rtools compiler for windows is based on GCC 4.9.3 and Mingw-W64 V3. 
 It does not support multilib: instead we ship separate compilers targeting
 win32 and win64. R already supports this by setting `BINPREF` in `MkRules`.
 The main challenge in this update is that the new compilers use another C++
@@ -14,7 +14,7 @@ etc) will need a rebuild. Shared libraries (DLL files) and plain C libraries
 should be unaffected. The good news is that the new tool chain is more 
 standard, reliable and performant. This makes porting packages to Windows 
 easier than before. Moreover, future upgrades of the tool chain should be 
-much less painful than this time. *
+much less painful than this time._
 
 ### Introduction
 
