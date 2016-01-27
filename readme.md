@@ -1,6 +1,9 @@
 ## Rtools 3.3
 
-Last updated by Jeroen on September 24 2015.
+Last updated by Jeroen on January 26 2016. Download latest binaries:
+
+ - Latest `Rtools33.exe`: https://cran.r-project.org/bin/windows/Rtools/
+ - Latest R-3.3 build: http://www.stat.ucla.edu/~jeroen/mingw-w64/R-experimental/
 
 ### Summary
 
