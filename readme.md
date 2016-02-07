@@ -5,7 +5,7 @@ Last updated by Jeroen on February 7. Download latest binaries:
  - Latest `Rtools33.exe`: https://cran.r-project.org/bin/windows/Rtools/
  - Latest R-devel-493 build: https://cran.r-project.org/bin/windows/base/R-devel-493-win.exe
 
-This [wiki](https://github.com/rwinlib/r-base/wiki/Testing-Packages-with-Experimental-R-Devel-Build-for-Windows) page has more instructions for getting started with the new toolchain!
+This [wiki](https://github.com/rwinlib/r-base/wiki/Testing-Packages-with-Experimental-R-Devel-Build-for-Windows) page has more instructions for getting started with the new toolchain! Please open an [issue](https://github.com/rwinlib/r-base/issues) if your package has problems with the new toolchain. Please make sure to verify that the problem does not appear for regular R-devel with the old toolchain.
 
 ### Summary
 
