@@ -1,9 +1,11 @@
 ## Rtools 3.3
 
-Last updated by Jeroen on January 26 2016. Download latest binaries:
+Last updated by Jeroen on February 7. Download latest binaries:
 
  - Latest `Rtools33.exe`: https://cran.r-project.org/bin/windows/Rtools/
- - Latest R-3.3 build: http://www.stat.ucla.edu/~jeroen/mingw-w64/R-experimental/
+ - Latest R-devel-493 build: https://cran.r-project.org/bin/windows/base/R-devel-493-win.exe
+
+This [wiki](https://github.com/rwinlib/r-base/wiki/Testing-Packages-with-Experimental-R-Devel-Build-for-Windows) page has more instructions for getting started with the new toolchain!
 
 ### Summary
 
