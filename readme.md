@@ -91,10 +91,10 @@ inside msys2:
 
 ```sh
 # Build i686-493-posix-dwarf-rt_v3-s
-./build --mode=gcc-4.9.3 --rt-version=v3 --arch=i686 --exceptions=dwarf --static-gcc --threads=posix --enable-languages=c,c++,fortran 
+./build --mode=gcc-4.9.3 --rt-version=v3 --arch=i686 --exceptions=dwarf --static-gcc --threads=posix --enable-languages=c,c++,fortran,lto 
 
 # Build x86_64-493-posix-seh-rt_v3-s
-./build --mode=gcc-4.9.3 --rt-version=v3 --arch=x86_64 --exceptions=seh --static-gcc --threads=posix --enable-languages=c,c++,fortran
+./build --mode=gcc-4.9.3 --rt-version=v3 --arch=x86_64 --exceptions=seh --static-gcc --threads=posix --enable-languages=c,c++,fortran,lto
 ```
 
 The new chain is larger in size than the old one. This is mostly because
