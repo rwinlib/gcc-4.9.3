@@ -15,12 +15,12 @@ ICU_PATH = C:/Rtools/mingw_libs
 
 USE_LIBCURL = YES
 USE_ATLAS = NO
-CURL_PATH = @build@/libcurl-7.43.0
+CURL_PATH = @home@/libcurl-7.43.0
 CURL_LIBS = -lcurl -lssl -lcrypto -lssh2 -lrtmp -lidn -lintl -liconv -lgdi32 -lcrypt32 -lz -lws2_32 -lcrypt32 -lwldap32 -lwinmm
 USE_ICU = YES
 ICU_LIBS = -lsicuin -lsicuuc -lsicudt -lstdc++
 BUILD_HTML = YES
-CAIRO_HOME = @build@/cairo
+CAIRO_HOME = @home@/cairo
 OPENMP = -fopenmp
 EXT_LIBS = @home@/extsoft
 

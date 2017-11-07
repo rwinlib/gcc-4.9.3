@@ -7,7 +7,10 @@ set R_VERSION=%1
 set WIN=%2
 
 ::set BUILDDIR=%CD%
-set BUILDDIR=c:/Rbuild
+set SOURCEDIR=%~f0/../
+set BUILDDIR=c:\\Rbuild
+mkdir %BUILDDIR%
+COPY %R_VERSION%.tar.gz %BUILDDIR%\%R_VERSION%.tar.gz
 cd %BUILDDIR%
 
 :: Set name of target
@@ -28,12 +31,17 @@ rm -Rf %R_HOME%
 :: Copy sources
 tar -xf %R_VERSION%.tar.gz
 mv %R_VERSION% %R_NAME%
-sed -e "s|@win@|%WIN%|" -e "s|@home@|%R_HOME%|" -e "s|@home32@|%HOME32%|" -e "s|@build@|%BUILDDIR%|" MkRules.local.in > %R_HOME%/src/gnuwin32/MkRules.local
+set XBUILDDIR=%BUILDDIR:\\=/%
+set XR_HOME=%R_HOME:\\=/%
+set XHOME32=%HOME32:\\=/%
+sed -e "s|@win@|%WIN%|" -e "s|@home@|%XR_HOME%|" -e "s|@home32@|%XHOME32%|" -e "s|@build@|%XBUILDDIR%|" %SOURCEDIR%\MkRules.local.in > %R_HOME%/src/gnuwin32/MkRules.local
 
 :: Copy libraries
-cp -R Tcl%WIN% %R_HOME%/Tcl
-cp -R extsoft %R_HOME%/extsoft
-cp curl-ca-bundle.crt %R_HOME%/etc/curl-ca-bundle.crt
+cp -R %SOURCEDIR%\libcurl-7.43.0 %R_HOME%/libcurl-7.43.0
+cp -R %SOURCEDIR%\Tcl%WIN% %R_HOME%/Tcl
+cp -R %SOURCEDIR%\extsoft %R_HOME%/extsoft
+cp -R %SOURCEDIR%\cairo %R_HOME%/cairo
+cp %SOURCEDIR%\curl-ca-bundle.crt %R_HOME%/etc/curl-ca-bundle.crt
 
 :: Temporary patch for mingw-w64 bugs
 :: sed -i "s/__GNUC__ <= 4/__GNUC__ <= 5/g" %R_HOME%/src/main/eval.c
@@ -41,6 +49,9 @@ cp curl-ca-bundle.crt %R_HOME%/etc/curl-ca-bundle.crt
 
 :: Enable C++11
 :: sed -i "s/CXX1XSTD = -std=c++0x/CXX1XSTD = -std=c++11/g" %R_HOME%/src/gnuwin32/fixed/etc/Makeconf
+
+:: Temporary downgrade Tcl
+sed -i "s/TCL_VERSION = 86/TCL_VERSION = 85/" %R_HOME%/src/gnuwin32/fixed/etc/Makeconf
 
 :: Mark output as experimental
 sed -i "s/Under development (unstable)/EXPERIMENTAL/" %R_HOME%/VERSION
